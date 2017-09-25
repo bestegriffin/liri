@@ -1,7 +1,7 @@
 // Vendor
 var fs = require('fs');
 var Twitter = require('twitter');
-var spotify = require('spotify');
+var Spotify = require('node-spotify-api');
 var request = require('request');
 
 // My Scripts
@@ -51,13 +51,21 @@ var app = {
       }
     });
   },
-  "spotify-this-song": function(keyword) {
+
+  "spotify-this-song": function(keyword)
+   { var spotify = new Spotify({
+      id: '3983338be70446bd803b30a4a25002fc',
+      secret: 'd8fb9e30063c48818e23948f160e25d7'
+});
     spotify.search({ type: 'track', query: 'Toxicity' }, function(err, data) {
     if ( err ) {
         console.log('Error occurred: ' + err);
         return;
-    }
-    
+ 
+
+        }if(data.tracks.items.length > 0) 
+        { var record = data.tracks.items[0];
+  
         console.log(' ');
         console.log('================ Song Info ================');
         console.log('Artist: ' + record.artists[0].name);
@@ -66,9 +74,9 @@ var app = {
         console.log('Album: ' + record.album.name);
         console.log('===========================================');
         console.log(' ');
-    });
-  },
-  
+    };
+  }
+  )},
   "do-what-it-says": function() {
     fs.readFile('random.txt', 'utf8', function(err, data) {
       if(err) throw err;
